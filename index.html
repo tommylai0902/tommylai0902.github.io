@@ -22,14 +22,11 @@
       --accent: #7ec8f5;
       --accent-dim: rgba(126,200,245,0.12);
       --accent-hover: #a0d8f8;
-      --red: #ff6b6b;
-      --blue: #6bb5ff;
       --radius: 12px;
       --radius-sm: 6px;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -39,7 +36,19 @@
       font-size: 16px;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
+
+    /* ── CANVAS BACKGROUND ── */
+    #star-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    nav, section, footer { position: relative; z-index: 1; }
 
     /* ── NAV ── */
     nav {
@@ -93,7 +102,7 @@
       font-size: 0.78rem;
       color: var(--accent);
       background: var(--accent-dim);
-      border: 1px solid rgba(200,240,96,0.2);
+      border: 1px solid rgba(126,200,245,0.2);
       border-radius: 100px;
       padding: 0.3rem 0.85rem;
       margin-bottom: 2rem;
@@ -124,6 +133,22 @@
 
     h1 .accent { color: var(--accent); }
 
+    /* Typing cursor */
+    .typed-word {
+      color: var(--accent);
+      position: relative;
+    }
+    .typed-word::after {
+      content: '|';
+      color: var(--accent);
+      animation: blink 0.8s step-end infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     .hero-sub {
       font-size: 1.15rem;
       color: var(--muted);
@@ -133,11 +158,7 @@
       line-height: 1.7;
     }
 
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
 
     .btn-primary {
       background: var(--accent);
@@ -163,6 +184,21 @@
       transition: border-color 0.2s, transform 0.15s;
     }
     .btn-secondary:hover { border-color: var(--muted); transform: translateY(-1px); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ── SECTION SHARED ── */
     section { padding: 5rem 2.5rem; max-width: 820px; margin: 0 auto; }
@@ -198,11 +234,7 @@
       font-size: 1rem;
     }
 
-    .skills-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .skills-list { display: flex; flex-direction: column; gap: 1rem; }
 
     .skill-row label {
       font-family: 'DM Mono', monospace;
@@ -213,11 +245,7 @@
       margin-bottom: 0.4rem;
     }
 
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
     .tag {
       font-size: 0.78rem;
@@ -228,15 +256,12 @@
       background: var(--surface);
       font-family: 'DM Mono', monospace;
       letter-spacing: 0.02em;
+      transition: border-color 0.2s, color 0.2s;
     }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── PROJECTS ── */
-    .filter-bar {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
+    .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
 
     .filter-btn {
       font-size: 0.8rem;
@@ -262,12 +287,10 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.6rem;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
       transition: border-color 0.2s, transform 0.2s, background 0.2s;
       position: relative;
       overflow: hidden;
@@ -276,10 +299,53 @@
     .project-card:hover {
       border-color: var(--border-hover);
       background: var(--surface2);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
     }
 
     .project-card.hidden { display: none; }
+
+    /* Screenshot preview */
+    .card-preview {
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+      position: relative;
+    }
+
+    .card-preview iframe {
+      width: 200%;
+      height: 200%;
+      border: none;
+      transform: scale(0.5);
+      transform-origin: top left;
+      pointer-events: none;
+    }
+
+    .card-preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, var(--surface) 100%);
+      z-index: 1;
+    }
+
+    .card-preview-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .card-body {
+      padding: 1.25rem 1.4rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+    }
 
     .card-top {
       display: flex;
@@ -287,15 +353,11 @@
       align-items: flex-start;
     }
 
-    .card-icon {
-      width: 38px; height: 38px;
-      border-radius: 8px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(200,240,96,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
     }
 
     .card-arrow {
@@ -305,26 +367,15 @@
     }
     .project-card:hover .card-arrow { color: var(--accent); transform: translate(2px, -2px); }
 
-    .card-title {
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text);
-    }
-
     .card-desc {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--muted);
       line-height: 1.6;
       font-weight: 300;
       flex: 1;
     }
 
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 
     .card-tag {
       font-size: 0.72rem;
@@ -337,7 +388,7 @@
 
     .card-url {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--accent);
       opacity: 0.7;
     }
@@ -357,11 +408,7 @@
       font-weight: 300;
     }
 
-    .contact-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
 
     /* ── FOOTER ── */
     footer {
@@ -388,6 +435,8 @@
 </head>
 <body>
 
+  <canvas id="star-canvas"></canvas>
+
   <nav>
     <a class="nav-logo" href="#home">TL.dev</a>
     <ul class="nav-links">
@@ -400,7 +449,7 @@
   <!-- HERO -->
   <section id="home">
     <div class="hero-tag">Available for new projects</div>
-    <h1>Tommy Lai<br><span class="accent">Full-Stack Dev</span><br>&amp; Web Designer.</h1>
+    <h1>Tommy Lai<br><span class="typed-word" id="typed-word">Full-Stack Dev</span><br>&amp; Web Designer.</h1>
     <p class="hero-sub">Toronto-based developer building fast, polished websites and apps — from React &amp; Django to Wix &amp; Shopify. 4+ years of enterprise and client-facing experience.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View My Work</a>
@@ -410,52 +459,37 @@
 
   <!-- ABOUT -->
   <section id="about">
-    <p class="section-label">// about</p>
-    <h2>A bit about me</h2>
+    <p class="section-label reveal">// about</p>
+    <h2 class="reveal reveal-delay-1">A bit about me</h2>
     <div class="about-grid">
-      <div class="about-text">
+      <div class="about-text reveal reveal-delay-2">
         <p>I'm a full-stack developer and web designer with 4+ years of professional experience, spanning enterprise insurance systems in Hong Kong to live client websites in Toronto.</p>
         <p>I love the intersection of clean code and visual craft — whether that's a pixel-perfect Wix build, a React/Next.js site, or a Django REST API powering a real product.</p>
         <p>Outside of code, I'm usually hiking, playing badminton, or deep in an anime series.</p>
       </div>
-      <div class="skills-list">
+      <div class="skills-list reveal reveal-delay-3">
         <div class="skill-row">
           <label>DESIGN &amp; PLATFORMS</label>
           <div class="skill-tags">
-            <span class="tag">Wix</span>
-            <span class="tag">Shopify</span>
-            <span class="tag">Figma</span>
-            <span class="tag">Photoshop</span>
-            <span class="tag">Vercel</span>
+            <span class="tag">Wix</span><span class="tag">Shopify</span><span class="tag">Figma</span><span class="tag">Photoshop</span><span class="tag">Vercel</span>
           </div>
         </div>
         <div class="skill-row">
           <label>FRONT-END</label>
           <div class="skill-tags">
-            <span class="tag">React</span>
-            <span class="tag">Next.js</span>
-            <span class="tag">TypeScript</span>
-            <span class="tag">HTML/CSS</span>
-            <span class="tag">Tailwind</span>
+            <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">HTML/CSS</span><span class="tag">Tailwind</span>
           </div>
         </div>
         <div class="skill-row">
           <label>BACK-END</label>
           <div class="skill-tags">
-            <span class="tag">Java</span>
-            <span class="tag">Python</span>
-            <span class="tag">Django</span>
-            <span class="tag">Spring Boot</span>
-            <span class="tag">PostgreSQL</span>
+            <span class="tag">Java</span><span class="tag">Python</span><span class="tag">Django</span><span class="tag">Spring Boot</span><span class="tag">PostgreSQL</span>
           </div>
         </div>
         <div class="skill-row">
           <label>TOOLS</label>
           <div class="skill-tags">
-            <span class="tag">Git</span>
-            <span class="tag">Docker</span>
-            <span class="tag">CI/CD</span>
-            <span class="tag">Agile/Scrum</span>
+            <span class="tag">Git</span><span class="tag">Docker</span><span class="tag">CI/CD</span><span class="tag">Agile/Scrum</span>
           </div>
         </div>
       </div>
@@ -464,10 +498,10 @@
 
   <!-- PROJECTS -->
   <section id="projects">
-    <p class="section-label">// projects</p>
-    <h2>Things I've built</h2>
+    <p class="section-label reveal">// projects</p>
+    <h2 class="reveal reveal-delay-1">Things I've built</h2>
 
-    <div class="filter-bar">
+    <div class="filter-bar reveal reveal-delay-2">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="wix">Wix</button>
       <button class="filter-btn" data-filter="react">React</button>
@@ -478,71 +512,79 @@
     <div class="projects-grid">
 
       <a href="https://rainbow-hairsalon.vercel.app/" target="_blank" rel="noopener"
-         class="project-card" data-tags="react">
-        <div class="card-top">
-          <div class="card-icon">💇</div>
-          <span class="card-arrow">↗</span>
+         class="project-card reveal reveal-delay-1" data-tags="react" data-url="https://rainbow-hairsalon.vercel.app/">
+        <div class="card-preview">
+          <div class="card-preview-fallback">💇</div>
+          <div class="card-preview-overlay"></div>
         </div>
-        <div class="card-title">Rainbow Hair Salon</div>
-        <div class="card-desc">Production client site with responsive layout, Google Maps integration, Open Graph metadata, and performance-optimized animations. Verified via Google Search Console.</div>
-        <div class="card-tags">
-          <span class="card-tag">React</span>
-          <span class="card-tag">Next.js</span>
-          <span class="card-tag">SEO</span>
-          <span class="card-tag">Vercel</span>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Rainbow Hair Salon</div>
+            <span class="card-arrow">↗</span>
+          </div>
+          <div class="card-desc">Production client site with responsive layout, Google Maps integration, Open Graph metadata, and performance-optimized animations.</div>
+          <div class="card-tags">
+            <span class="card-tag">React</span><span class="card-tag">Next.js</span><span class="card-tag">SEO</span><span class="card-tag">Vercel</span>
+          </div>
+          <div class="card-url">rainbow-hairsalon.vercel.app</div>
         </div>
-        <div class="card-url">rainbow-hairsalon.vercel.app</div>
       </a>
 
       <a href="https://www.isotopeconstruction.com/" target="_blank" rel="noopener"
-         class="project-card" data-tags="wix">
-        <div class="card-top">
-          <div class="card-icon">🏗️</div>
-          <span class="card-arrow">↗</span>
+         class="project-card reveal reveal-delay-2" data-tags="wix" data-url="https://www.isotopeconstruction.com/">
+        <div class="card-preview">
+          <div class="card-preview-fallback">🏗️</div>
+          <div class="card-preview-overlay"></div>
         </div>
-        <div class="card-title">Isotope Construction</div>
-        <div class="card-desc">Client website built on Wix with a polished responsive layout, Photoshop-crafted visuals, and SEO optimization. Reduced page load times by 40%.</div>
-        <div class="card-tags">
-          <span class="card-tag">Wix</span>
-          <span class="card-tag">Photoshop</span>
-          <span class="card-tag">SEO</span>
-          <span class="card-tag">Responsive</span>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Isotope Construction</div>
+            <span class="card-arrow">↗</span>
+          </div>
+          <div class="card-desc">Client website built on Wix with a polished responsive layout, Photoshop-crafted visuals, and SEO optimization. Reduced page load times by 40%.</div>
+          <div class="card-tags">
+            <span class="card-tag">Wix</span><span class="card-tag">Photoshop</span><span class="card-tag">SEO</span><span class="card-tag">Responsive</span>
+          </div>
+          <div class="card-url">isotopeconstruction.com</div>
         </div>
-        <div class="card-url">isotopeconstruction.com</div>
       </a>
 
       <a href="https://yumtongla.myshopify.com/" target="_blank" rel="noopener"
-         class="project-card" data-tags="shopify">
-        <div class="card-top">
-          <div class="card-icon">🍜</div>
-          <span class="card-arrow">↗</span>
+         class="project-card reveal reveal-delay-3" data-tags="shopify" data-url="https://yumtongla.myshopify.com/">
+        <div class="card-preview">
+          <div class="card-preview-fallback">🍜</div>
+          <div class="card-preview-overlay"></div>
         </div>
-        <div class="card-title">Yum Tong'La</div>
-        <div class="card-desc">Live Shopify e-commerce storefront with bilingual (English/Chinese) content management, full product catalogue, and end-to-end CMS ownership.</div>
-        <div class="card-tags">
-          <span class="card-tag">Shopify</span>
-          <span class="card-tag">CMS</span>
-          <span class="card-tag">E-commerce</span>
-          <span class="card-tag">Bilingual</span>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Yum Tong'La</div>
+            <span class="card-arrow">↗</span>
+          </div>
+          <div class="card-desc">Live Shopify e-commerce storefront with bilingual (English/Chinese) content management, full product catalogue, and end-to-end CMS ownership.</div>
+          <div class="card-tags">
+            <span class="card-tag">Shopify</span><span class="card-tag">CMS</span><span class="card-tag">E-commerce</span><span class="card-tag">Bilingual</span>
+          </div>
+          <div class="card-url">yumtongla.myshopify.com</div>
         </div>
-        <div class="card-url">yumtongla.myshopify.com</div>
       </a>
 
       <a href="https://pricecompareapp.vercel.app/" target="_blank" rel="noopener"
-         class="project-card" data-tags="django">
-        <div class="card-top">
-          <div class="card-icon">🛒</div>
-          <span class="card-arrow">↗</span>
+         class="project-card reveal reveal-delay-4" data-tags="django" data-url="https://pricecompareapp.vercel.app/">
+        <div class="card-preview">
+          <div class="card-preview-fallback">🛒</div>
+          <div class="card-preview-overlay"></div>
         </div>
-        <div class="card-title">Price Compare App</div>
-        <div class="card-desc">Full-stack supermarket price comparison tool. Django REST API back-end, optimized PostgreSQL schema for real-time lookups, responsive front-end deployed on Vercel.</div>
-        <div class="card-tags">
-          <span class="card-tag">Django</span>
-          <span class="card-tag">PostgreSQL</span>
-          <span class="card-tag">REST API</span>
-          <span class="card-tag">Vercel</span>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Price Compare App</div>
+            <span class="card-arrow">↗</span>
+          </div>
+          <div class="card-desc">Full-stack supermarket price comparison tool. Django REST API back-end, optimized PostgreSQL schema for real-time lookups, responsive front-end on Vercel.</div>
+          <div class="card-tags">
+            <span class="card-tag">Django</span><span class="card-tag">PostgreSQL</span><span class="card-tag">REST API</span><span class="card-tag">Vercel</span>
+          </div>
+          <div class="card-url">pricecompareapp.vercel.app</div>
         </div>
-        <div class="card-url">pricecompareapp.vercel.app</div>
       </a>
 
     </div>
@@ -550,9 +592,9 @@
 
   <!-- CONTACT -->
   <section id="contact">
-    <p class="section-label">// contact</p>
-    <h2>Let's work together</h2>
-    <div class="contact-inner">
+    <p class="section-label reveal">// contact</p>
+    <h2 class="reveal reveal-delay-1">Let's work together</h2>
+    <div class="contact-inner reveal reveal-delay-2">
       <p>Have a project in mind or want to chat? Reach out via email or LinkedIn — I'll get back to you as soon as I can.</p>
       <div class="contact-links">
         <a href="mailto:tommylai19@gmail.com" class="btn-primary">Email Me</a>
@@ -562,10 +604,111 @@
   </section>
 
   <footer>
-    <span>Tommy Lai &nbsp;·&nbsp; Toronto, ON &nbsp;·&nbsp; Built with React &amp; ☕</span>
+    <span>Tommy Lai &nbsp;·&nbsp; Toronto, ON &nbsp;·&nbsp; Built with ♥ &amp; ☕</span>
   </footer>
 
   <script>
+    // ── STAR / PARTICLE BACKGROUND ──
+    const canvas = document.getElementById('star-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars = [], mouse = { x: -999, y: -999 };
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function initStars() {
+      stars = [];
+      const count = Math.floor((W * H) / 8000);
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.2 + 0.2,
+          alpha: Math.random() * 0.5 + 0.1,
+          speed: Math.random() * 0.15 + 0.02,
+          drift: (Math.random() - 0.5) * 0.1,
+          twinkleOffset: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      frame += 0.01;
+
+      stars.forEach(s => {
+        const twinkle = s.alpha * (0.6 + 0.4 * Math.sin(frame * 1.5 + s.twinkleOffset));
+
+        // Mouse repulsion / glow
+        const dx = s.x - mouse.x;
+        const dy = s.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const glow = dist < 120 ? 1 - dist / 120 : 0;
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r + glow * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(126,200,245,${twinkle + glow * 0.4})`;
+        ctx.fill();
+
+        // Drift
+        s.y -= s.speed;
+        s.x += s.drift;
+        if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+        if (s.x < -2) s.x = W + 2;
+        if (s.x > W + 2) s.x = -2;
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', () => { resize(); initStars(); });
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    resize(); initStars(); draw();
+
+    // ── TYPING ANIMATION ──
+    const words = ['Full-Stack Dev', 'Web Designer', 'Builder'];
+    const el = document.getElementById('typed-word');
+    let wordIdx = 0, charIdx = 0, deleting = false, pauseTimer = null;
+
+    function type() {
+      const word = words[wordIdx];
+      if (!deleting) {
+        el.textContent = word.slice(0, ++charIdx);
+        if (charIdx === word.length) {
+          deleting = true;
+          setTimeout(type, 1800);
+          return;
+        }
+        setTimeout(type, 80);
+      } else {
+        el.textContent = word.slice(0, --charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          wordIdx = (wordIdx + 1) % words.length;
+          setTimeout(type, 300);
+          return;
+        }
+        setTimeout(type, 45);
+      }
+    }
+    setTimeout(type, 1000);
+
+    // ── SCROLL REVEAL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ── PROJECT FILTER ──
     const filterBtns = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.project-card');
 
@@ -575,13 +718,24 @@
         btn.classList.add('active');
         const filter = btn.dataset.filter;
         cards.forEach(card => {
-          if (filter === 'all' || card.dataset.tags.includes(filter)) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
+          card.classList.toggle('hidden', filter !== 'all' && !card.dataset.tags.includes(filter));
         });
       });
+    });
+
+    // ── SCREENSHOT PREVIEWS via Google PageSpeed thumbnail ──
+    document.querySelectorAll('.project-card').forEach(card => {
+      const url = card.dataset.url;
+      if (!url) return;
+      const preview = card.querySelector('.card-preview');
+      const fallback = card.querySelector('.card-preview-fallback');
+      const img = new Image();
+      img.onload = () => {
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:top;';
+        fallback.replaceWith(img);
+      };
+      img.onerror = () => {};
+      img.src = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`;
     });
   </script>
 
