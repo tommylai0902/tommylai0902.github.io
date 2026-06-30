@@ -450,7 +450,7 @@
   <section id="home">
     <div class="hero-tag">Available for new projects</div>
     <h1>Tommy Lai<br><span class="typed-word" id="typed-word">Full-Stack Dev</span><br>&amp; Web Designer.</h1>
-    <p class="hero-sub">Toronto-based developer building fast, polished websites and apps — from React &amp; Django to Wix &amp; Shopify. 4+ years of enterprise and client-facing experience.</p>
+    <p class="hero-sub">Toronto-based developer building fast, polished websites and apps — from React &amp; Django to WordPress, Wix &amp; Shopify. 4+ years of enterprise and client-facing experience.</p>
     <div class="hero-cta">
       <a href="#projects" class="btn-primary">View My Work</a>
       <a href="#contact" class="btn-secondary">Get in Touch</a>
@@ -464,14 +464,14 @@
     <div class="about-grid">
       <div class="about-text reveal reveal-delay-2">
         <p>I'm a full-stack developer and web designer with 4+ years of professional experience, spanning enterprise insurance systems in Hong Kong to live client websites in Toronto.</p>
-        <p>I love the intersection of clean code and visual craft — whether that's a pixel-perfect Wix build, a React/Next.js site, or a Django REST API powering a real product.</p>
+        <p>I love the intersection of clean code and visual craft — whether that's a WordPress/WooCommerce storefront, a pixel-perfect Wix build, a React/Next.js site, or a Django REST API powering a real product.</p>
         <p>Outside of code, I'm usually hiking, playing badminton, or deep in an anime series.</p>
       </div>
       <div class="skills-list reveal reveal-delay-3">
         <div class="skill-row">
           <label>DESIGN &amp; PLATFORMS</label>
           <div class="skill-tags">
-            <span class="tag">Wix</span><span class="tag">Shopify</span><span class="tag">Figma</span><span class="tag">Photoshop</span><span class="tag">Vercel</span>
+            <span class="tag">WordPress</span><span class="tag">Elementor</span><span class="tag">Wix</span><span class="tag">Shopify</span><span class="tag">Figma</span><span class="tag">Photoshop</span><span class="tag">Vercel</span>
           </div>
         </div>
         <div class="skill-row">
@@ -487,9 +487,9 @@
           </div>
         </div>
         <div class="skill-row">
-          <label>TOOLS</label>
+          <label>SEO &amp; TOOLS</label>
           <div class="skill-tags">
-            <span class="tag">Git</span><span class="tag">Docker</span><span class="tag">CI/CD</span><span class="tag">Agile/Scrum</span>
+            <span class="tag">Search Console</span><span class="tag">Analytics</span><span class="tag">Git</span><span class="tag">Docker</span><span class="tag">CI/CD</span><span class="tag">Agile/Scrum</span>
           </div>
         </div>
       </div>
@@ -549,8 +549,8 @@
         </div>
       </a>
 
-      <a href="https://yumtongla.myshopify.com/" target="_blank" rel="noopener"
-         class="project-card reveal reveal-delay-3" data-tags="shopify" data-url="https://yumtongla.myshopify.com/">
+      <a href="https://yumtongla.vercel.app/" target="_blank" rel="noopener"
+         class="project-card reveal reveal-delay-3" data-tags="shopify" data-url="https://yumtongla.vercel.app/">
         <div class="card-preview">
           <div class="card-preview-fallback">🍜</div>
           <div class="card-preview-overlay"></div>
@@ -560,11 +560,11 @@
             <div class="card-title">Yum Tong'La</div>
             <span class="card-arrow">↗</span>
           </div>
-          <div class="card-desc">Live Shopify e-commerce storefront with bilingual (English/Chinese) content management, full product catalogue, and end-to-end CMS ownership.</div>
+          <div class="card-desc">Bilingual (English/Chinese) e-commerce storefront with a full product catalogue and end-to-end CMS ownership. Built on Shopify and deployed to Vercel; also rebuilt on WordPress/WooCommerce.</div>
           <div class="card-tags">
-            <span class="card-tag">Shopify</span><span class="card-tag">CMS</span><span class="card-tag">E-commerce</span><span class="card-tag">Bilingual</span>
+            <span class="card-tag">Shopify</span><span class="card-tag">Vercel</span><span class="card-tag">E-commerce</span><span class="card-tag">Bilingual</span>
           </div>
-          <div class="card-url">yumtongla.myshopify.com</div>
+          <div class="card-url">yumtongla.vercel.app</div>
         </div>
       </a>
 
@@ -696,7 +696,7 @@
     }
     setTimeout(type, 1000);
 
-    // ── SCROLL REVEAL ──
+    // ── SCROLL REVEAL ── 
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -723,7 +723,7 @@
       });
     });
 
-    // ── SCREENSHOT PREVIEWS via Google PageSpeed thumbnail ──
+    // ── SCREENSHOT PREVIEWS via microlink ──
     document.querySelectorAll('.project-card').forEach(card => {
       const url = card.dataset.url;
       if (!url) return;
