@@ -393,6 +393,49 @@
       opacity: 0.7;
     }
 
+    .project-card.static { cursor: default; }
+
+    /* ── CERTIFICATIONS ── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .cert-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.5rem;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    a.cert-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    a.cert-card:hover .card-arrow { color: var(--accent); }
+
+    .cert-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .cert-issuer { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+
+    .cert-id {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      opacity: 0.7;
+    }
+
     /* ── CONTACT ── */
     .contact-inner {
       background: var(--surface);
@@ -442,6 +485,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certs</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -465,7 +509,7 @@
       <div class="about-text reveal reveal-delay-2">
         <p>I'm a full-stack developer and web designer with 4+ years of professional experience, spanning enterprise insurance systems in Hong Kong to live client websites in Toronto.</p>
         <p>I love the intersection of clean code and visual craft — whether that's a WordPress/WooCommerce storefront, a pixel-perfect Wix build, a React/Next.js site, or a Django REST API powering a real product.</p>
-        <p>Outside of code, I'm usually hiking, playing badminton, or deep in an anime series.</p>
+        <p>Outside of work, I'm building a 2D action-platformer in Unity, hiking, playing badminton, or deep in an anime series.</p>
       </div>
       <div class="skills-list reveal reveal-delay-3">
         <div class="skill-row">
@@ -507,6 +551,8 @@
       <button class="filter-btn" data-filter="react">React</button>
       <button class="filter-btn" data-filter="shopify">Shopify</button>
       <button class="filter-btn" data-filter="django">Django</button>
+      <button class="filter-btn" data-filter="drupal">Drupal</button>
+      <button class="filter-btn" data-filter="unity">Unity</button>
     </div>
 
     <div class="projects-grid">
@@ -587,6 +633,68 @@
         </div>
       </a>
 
+      <div class="project-card static reveal reveal-delay-1" data-tags="drupal">
+        <div class="card-preview">
+          <div class="card-preview-fallback">🌐</div>
+          <div class="card-preview-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Drupal 11 Events Platform</div>
+          </div>
+          <div class="card-desc">Full Drupal 11 build on DDEV/WSL2: custom Olivero sub-theme with an SCSS pattern library, Events content type with Views, WCAG-compliant accessibility, and SEO via Pathauto &amp; Metatag.</div>
+          <div class="card-tags">
+            <span class="card-tag">Drupal 11</span><span class="card-tag">DDEV</span><span class="card-tag">SCSS</span><span class="card-tag">WCAG</span><span class="card-tag">SEO</span>
+          </div>
+          <div class="card-url">local build · case study on request</div>
+        </div>
+      </div>
+
+      <div class="project-card static reveal reveal-delay-2" data-tags="unity">
+        <div class="card-preview">
+          <div class="card-preview-fallback">🎮</div>
+          <div class="card-preview-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Unity 2D Action-Platformer</div>
+          </div>
+          <div class="card-desc">Work-in-progress 2D action-platformer inspired by Ori and the Will of the Wisps. Composition-based enemy AI (multiple enemy types), player movement &amp; combat systems, built in C#.</div>
+          <div class="card-tags">
+            <span class="card-tag">Unity</span><span class="card-tag">C#</span><span class="card-tag">Game Dev</span><span class="card-tag">2D</span>
+          </div>
+          <div class="card-url">in development</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <p class="section-label reveal">// certifications</p>
+    <h2 class="reveal reveal-delay-1">Certifications</h2>
+    <div class="certs-grid">
+      <a href="https://coursera.org/verify/LXD3H0F1A03I" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-1">
+        <div class="cert-name">Foundations of UX Design <span class="card-arrow">↗</span></div>
+        <div class="cert-issuer">Google · Coursera · 2026</div>
+        <div class="cert-id">ID: LXD3H0F1A03I</div>
+      </a>
+      <a href="https://coursera.org/verify/96GKPXOPSH6E" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-2">
+        <div class="cert-name">Shopify E-commerce <span class="card-arrow">↗</span></div>
+        <div class="cert-issuer">Coursera · Grade 100%</div>
+        <div class="cert-id">ID: 96GKPXOPSH6E</div>
+      </a>
+      <a href="https://coursera.org/verify/specialization/DJKHHFGV4GMW" target="_blank" rel="noopener" class="cert-card reveal reveal-delay-3">
+        <div class="cert-name">Python for Everybody <span class="card-arrow">↗</span></div>
+        <div class="cert-issuer">University of Michigan · Coursera</div>
+        <div class="cert-id">ID: DJKHHFGV4GMW</div>
+      </a>
+      <div class="cert-card reveal reveal-delay-4">
+        <div class="cert-name">Claude Code in Action</div>
+        <div class="cert-issuer">Anthropic Academy</div>
+        <div class="cert-id">AI-assisted development workflows</div>
+      </div>
     </div>
   </section>
 
@@ -599,6 +707,10 @@
       <div class="contact-links">
         <a href="mailto:tommylai19@gmail.com" class="btn-primary">Email Me</a>
         <a href="https://www.linkedin.com/in/tommylai0902" target="_blank" rel="noopener" class="btn-secondary">LinkedIn</a>
+        <a href="https://github.com/tommylai0902" target="_blank" rel="noopener" class="btn-secondary">GitHub</a>
+        <!-- Upload Tommy_Lai_Resume.pdf to the repo root, then uncomment:
+        <a href="./Tommy_Lai_Resume.pdf" target="_blank" rel="noopener" class="btn-secondary">Resume (PDF)</a>
+        -->
       </div>
     </div>
   </section>
