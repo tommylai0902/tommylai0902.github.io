@@ -7,6 +7,10 @@
   <meta name="description" content="Tommy Lai — Full-stack developer and web designer based in Toronto. Building fast, polished websites and apps.">
   <meta property="og:title" content="Tommy Lai — Developer & Designer">
   <meta property="og:description" content="Full-stack developer and web designer based in Toronto.">
+  <meta property="og:url" content="https://tommylai0902.github.io/">
+  <meta property="og:image" content="https://tommylai0902.github.io/assets/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -314,13 +318,12 @@
       position: relative;
     }
 
-    .card-preview iframe {
-      width: 200%;
-      height: 200%;
-      border: none;
-      transform: scale(0.5);
-      transform-origin: top left;
-      pointer-events: none;
+    .card-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
     }
 
     .card-preview-overlay {
@@ -464,6 +467,13 @@
       letter-spacing: 0.05em;
     }
 
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero-tag::before, .typed-word::after { animation: none; }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       nav { padding: 1rem 1.25rem; }
@@ -478,7 +488,7 @@
 </head>
 <body>
 
-  <canvas id="star-canvas"></canvas>
+  <canvas id="star-canvas" aria-hidden="true"></canvas>
 
   <nav>
     <a class="nav-logo" href="#home">TL.dev</a>
@@ -546,21 +556,57 @@
     <h2 class="reveal reveal-delay-1">Things I've built</h2>
 
     <div class="filter-bar reveal reveal-delay-2">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="wix">Wix</button>
-      <button class="filter-btn" data-filter="react">React</button>
-      <button class="filter-btn" data-filter="shopify">Shopify</button>
-      <button class="filter-btn" data-filter="django">Django</button>
-      <button class="filter-btn" data-filter="drupal">Drupal</button>
-      <button class="filter-btn" data-filter="unity">Unity</button>
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" data-filter="wix" aria-pressed="false">Wix</button>
+      <button class="filter-btn" data-filter="react" aria-pressed="false">React</button>
+      <button class="filter-btn" data-filter="shopify" aria-pressed="false">Shopify</button>
+      <button class="filter-btn" data-filter="django" aria-pressed="false">Django</button>
+      <button class="filter-btn" data-filter="drupal" aria-pressed="false">Drupal</button>
+      <button class="filter-btn" data-filter="unity" aria-pressed="false">Unity</button>
     </div>
 
     <div class="projects-grid">
 
-      <a href="https://rainbow-hairsalon.vercel.app/" target="_blank" rel="noopener"
-         class="project-card reveal reveal-delay-1" data-tags="react" data-url="https://rainbow-hairsalon.vercel.app/">
+      <a href="https://my-recime-app.vercel.app" target="_blank" rel="noopener"
+         class="project-card reveal reveal-delay-1" data-tags="react">
         <div class="card-preview">
-          <div class="card-preview-fallback">💇</div>
+          <img src="assets/recime.webp" alt="ReciMe app screenshot" loading="lazy" width="800" height="320">
+          <div class="card-preview-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">ReciMe — AI Recipe Map</div>
+            <span class="card-arrow">↗</span>
+          </div>
+          <div class="card-desc">Full-stack bilingual recipe app that pins your dishes on an interactive 3D globe. React/Vite/Tailwind front-end, Vercel serverless API, Neon Postgres, JWT auth, and AI recipe import via Gemini structured output &amp; JSON-LD extraction.</div>
+          <div class="card-tags">
+            <span class="card-tag">React</span><span class="card-tag">Serverless</span><span class="card-tag">Postgres</span><span class="card-tag">JWT</span><span class="card-tag">Gemini AI</span>
+          </div>
+          <div class="card-url">my-recime-app.vercel.app</div>
+        </div>
+      </a>
+
+      <div class="project-card static reveal reveal-delay-2" data-tags="react django">
+        <div class="card-preview">
+          <img src="assets/dental-dashboard.webp" alt="Dental clinic inventory platform dashboard screenshot" loading="lazy" width="800" height="320">
+          <div class="card-preview-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-title">Dental Clinic Inventory Platform</div>
+          </div>
+          <div class="card-desc">Multi-tenant SaaS for dental clinic stock management: Django REST API + React/Vite front-end, JWT auth, PostgreSQL with trigger-owned stock counts, full transaction audit log, and a consumption-analytics dashboard with usage projections.</div>
+          <div class="card-tags">
+            <span class="card-tag">Django</span><span class="card-tag">React</span><span class="card-tag">PostgreSQL</span><span class="card-tag">JWT</span><span class="card-tag">SaaS</span>
+          </div>
+          <div class="card-url">in development · demo on request</div>
+        </div>
+      </div>
+
+      <a href="https://rainbow-hairsalon.vercel.app/" target="_blank" rel="noopener"
+         class="project-card reveal reveal-delay-1" data-tags="react">
+        <div class="card-preview">
+          <img src="assets/rainbow-hairsalon.webp" alt="Rainbow Hair Salon website screenshot" loading="lazy" width="800" height="320">
           <div class="card-preview-overlay"></div>
         </div>
         <div class="card-body">
@@ -577,9 +623,9 @@
       </a>
 
       <a href="https://www.isotopeconstruction.com/" target="_blank" rel="noopener"
-         class="project-card reveal reveal-delay-2" data-tags="wix" data-url="https://www.isotopeconstruction.com/">
+         class="project-card reveal reveal-delay-2" data-tags="wix">
         <div class="card-preview">
-          <div class="card-preview-fallback">🏗️</div>
+          <img src="assets/isotope.webp" alt="Isotope Construction website screenshot" loading="lazy" width="800" height="320">
           <div class="card-preview-overlay"></div>
         </div>
         <div class="card-body">
@@ -596,9 +642,9 @@
       </a>
 
       <a href="https://yumtongla.vercel.app/" target="_blank" rel="noopener"
-         class="project-card reveal reveal-delay-3" data-tags="shopify" data-url="https://yumtongla.vercel.app/">
+         class="project-card reveal reveal-delay-3" data-tags="shopify">
         <div class="card-preview">
-          <div class="card-preview-fallback">🍜</div>
+          <img src="assets/yumtongla.webp" alt="Yum Tong'La storefront screenshot" loading="lazy" width="800" height="320">
           <div class="card-preview-overlay"></div>
         </div>
         <div class="card-body">
@@ -615,9 +661,9 @@
       </a>
 
       <a href="https://pricecompareapp.vercel.app/" target="_blank" rel="noopener"
-         class="project-card reveal reveal-delay-4" data-tags="django" data-url="https://pricecompareapp.vercel.app/">
+         class="project-card reveal reveal-delay-4" data-tags="django">
         <div class="card-preview">
-          <div class="card-preview-fallback">🛒</div>
+          <img src="assets/pricecompare.webp" alt="Price Compare App screenshot" loading="lazy" width="800" height="320">
           <div class="card-preview-overlay"></div>
         </div>
         <div class="card-body">
@@ -651,9 +697,9 @@
       </div>
 
       <a href="https://play.unity.com/en/games/87595e5f-84f4-4d20-af30-564cde10e1d3/sprite-adventure" target="_blank" rel="noopener"
-         class="project-card reveal reveal-delay-2" data-tags="unity" data-url="https://play.unity.com/en/games/87595e5f-84f4-4d20-af30-564cde10e1d3/sprite-adventure">
+         class="project-card reveal reveal-delay-2" data-tags="unity">
         <div class="card-preview">
-          <div class="card-preview-fallback">🎮</div>
+          <img src="assets/sprite-adventure.webp" alt="Spirit Adventure game screenshot" loading="lazy" width="800" height="320">
           <div class="card-preview-overlay"></div>
         </div>
         <div class="card-body">
@@ -749,10 +795,8 @@
     }
 
     let frame = 0;
-    function draw() {
+    function drawFrame() {
       ctx.clearRect(0, 0, W, H);
-      frame += 0.01;
-
       stars.forEach(s => {
         const twinkle = s.alpha * (0.6 + 0.4 * Math.sin(frame * 1.5 + s.twinkleOffset));
 
@@ -766,7 +810,14 @@
         ctx.arc(s.x, s.y, s.r + glow * 1.5, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(126,200,245,${twinkle + glow * 0.4})`;
         ctx.fill();
+      });
+    }
 
+    function draw() {
+      drawFrame();
+      frame += 0.01;
+
+      stars.forEach(s => {
         // Drift
         s.y -= s.speed;
         s.x += s.drift;
@@ -778,14 +829,22 @@
       requestAnimationFrame(draw);
     }
 
-    window.addEventListener('resize', () => { resize(); initStars(); });
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    window.addEventListener('resize', () => {
+      const prevW = W;
+      resize();
+      if (W !== prevW) initStars();  // mobile URL-bar resize only changes height — don't reshuffle stars
+      if (reduceMotion) drawFrame();
+    });
     window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    resize(); initStars(); draw();
+    resize(); initStars();
+    if (reduceMotion) drawFrame(); else draw();
 
     // ── TYPING ANIMATION ──
     const words = ['Full-Stack Dev', 'Web Designer', 'Builder'];
     const el = document.getElementById('typed-word');
-    let wordIdx = 0, charIdx = 0, deleting = false, pauseTimer = null;
+    let wordIdx = 0, charIdx = 0, deleting = false;
 
     function type() {
       const word = words[wordIdx];
@@ -808,7 +867,7 @@
         setTimeout(type, 45);
       }
     }
-    setTimeout(type, 1000);
+    if (!reduceMotion) setTimeout(type, 1000);
 
     // ── SCROLL REVEAL ── 
     const reveals = document.querySelectorAll('.reveal');
@@ -828,28 +887,14 @@
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
+        filterBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         const filter = btn.dataset.filter;
         cards.forEach(card => {
-          card.classList.toggle('hidden', filter !== 'all' && !card.dataset.tags.includes(filter));
+          card.classList.toggle('hidden', filter !== 'all' && !card.dataset.tags.split(' ').includes(filter));
         });
       });
-    });
-
-    // ── SCREENSHOT PREVIEWS via microlink ──
-    document.querySelectorAll('.project-card').forEach(card => {
-      const url = card.dataset.url;
-      if (!url) return;
-      const preview = card.querySelector('.card-preview');
-      const fallback = card.querySelector('.card-preview-fallback');
-      const img = new Image();
-      img.onload = () => {
-        img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:top;';
-        fallback.replaceWith(img);
-      };
-      img.onerror = () => {};
-      img.src = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`;
     });
   </script>
 
